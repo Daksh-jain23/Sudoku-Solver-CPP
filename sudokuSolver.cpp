@@ -2,7 +2,34 @@
 #include <vector>
 using namespace std;
 
+bool solvable(vector<vector<int>> &board){
+    for(int i = 0;i < 9;i++){
+        bool rows[9] = {0};
+        bool cols[9] = {0};
+        bool boxs[9] = {0};
+        for(int j = 0;j < 9;j++){
+            if(board[i][j]){
+                if(rows[board[i][j] - 1]) return false;
+                rows[board[i][j] - 1] = 1;
+            }
+
+            if(board[j][i]){
+                if(cols[board[j][i] - 1]) return false;
+                cols[board[j][i] - 1] = 1;
+            }
+
+            if(board[(i/3)*3 + j/3][(i%3)*3+j%3]){
+                if(boxs[board[(i/3)*3 + j/3][(i%3)*3+j%3] - 1]) return false;
+                boxs[board[(i/3)*3 + j/3][(i%3)*3+j%3] - 1] = 1;
+            }
+        }                  
+    }
+    return true;
+}
+
 bool Solve(vector<vector<int>> &board){
+    if(!solvable(board)) return false;
+
     for(int i = 0;i < 9;i++){
         for(int j = 0;j < 9;j++){
             if(board[i][j] != 0) continue;
